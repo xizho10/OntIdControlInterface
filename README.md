@@ -1,29 +1,22 @@
 ## ONTID综合账户管理接口
-
+* 获取验证码
 * 注册
 * 登录
 * 修改手机号或密码
 * 导入
 * 导出keystore或wif
 
-### 注册
-
+### 获取验证码
 注意： 需要添加HMAC认证方案。
 
 请求：
 
 ```json
-url：/api/v1/ontid/registry
+url：/api/v1/ontid/getcode/phone
 method：POST
 
 {
-	"action":"registry",
-	"version":"1.0",
-	"params": {
-			"phone":"15821703553",
-			"verifyCode": 123456,
-			"password":"123456"
-	}
+			"number":"+86 15821703553",
 }
 
 ```
@@ -32,7 +25,7 @@ method：POST
 ```json
 
 {
-	"action":"registry",
+	"action":"getCode",
 	"version":"1.0",
 	"error":0,
 	"desc":"SUCCESS",
@@ -42,25 +35,71 @@ method：POST
 
 | RequestField|     Type |   Description   | 
 | :--------------: | :--------:| :------: |
-|    result|   bool|   true 或false  |
+|    number|   String|  手机号码（带上区号）  |
+|    result|   bool|  发送成功  |
+
+### 注册
+
+请求：
+
+```json
+url：/api/v1/ontid/register/phone
+method：POST
+
+{
+			"number":"+86 15821703553",
+			"verifyCode": "123456",
+			"password":"123456"
+}
+
+```
+
+返回：
+```json
+
+{
+	"action":"register",
+	"version":"1.0",
+	"error":0,
+	"desc":"SUCCESS",
+	"result": "did:ont:AcrgWfbSPxMR1BNxtenRCCGpspamMWhLuL"
+}
+```
+
+| RequestField|     Type |   Description   | 
+| :--------------: | :--------:| :------: |
+|    number|   String|  手机号码（带上区号）  |
+|    verifyCode|   String|  验证码  |
+|    password|   String|  密码  |
+|    result|   String|  ontid  |
 
 
 ### 登录
 请求：
 
+* 验证码登录
+
+1. 先获取校验码
+2. 验证校验码
 ```json
 url：/api/v1/ontid/login
 method：POST
 
 {
-	"action":"login",
-	"version":"1.0",
-	"params": {
-			"phone":"15821703553",
-			"verifyCode": 123456
-	}
+			"phone":"+86 15821703553",
+			"verifyCode": "123456"
 }
 
+```
+* 密码登录
+```json
+url：/api/v1/ontid/loginPassword
+method：POST
+
+{
+			"phone":"+86 15821703553",
+			"password": "123456"
+}
 ```
 
 返回：
@@ -71,45 +110,67 @@ method：POST
 	"version":"1.0",
 	"error":0,
 	"desc":"SUCCESS",
-	"result": true
+	"result": "did:ont:AcrgWfbSPxMR1BNxtenRCCGpspamMWhLuL"
 }
 ```
 
 | RequestField|     Type |   Description   | 
 | :--------------: | :--------:| :------: |
-|    result|   bool|   true 或false  |
+|    phone|   String|  手机号码（带上区号）  |
+|    verifyCode|   String|  验证码  |
+|    password|   String|  密码  |
+|    result|   String|  ontid  |
 
 
 
-### 修改手机号或密码
+### 修改手机号
 
-请求：
+1. 先获取新手机校验码
+
+2. 请求：
 
 ```json
-url：/api/v1/ontid/edit/phone 或 /api/v1/ontid/edit/password
+url：/api/v1/ontid/edit/phone 
 method：POST
+
+{
+			"newPhone": "+86 15821703552",
+			"verifyCode": "123456",
+			"oldphone":"+86 15821703553",
+			"password":"123456",
+}
+
+
+```
+返回：
+```json
 
 {
 	"action":"editPhone", 
 	"version":"1.0",
-	"params": {
-			"phone":"15821703553",
-			"newPhone": "15821703552",
-			"password":"123456"
-	}
+	"error":0,
+	"desc":"SUCCESS",
+    "result": "did:ont:AcrgWfbSPxMR1BNxtenRCCGpspamMWhLuL"
 }
+```
 
-或
+| RequestField|     Type |   Description   | 
+| :--------------: | :--------:| :------: |
+|    newPhone|   String|   新手机号  |
+|    verifyCode|   String|   新手机号验证码  |
+|    oldphone|   String|   旧手机号  |
+|    password|   String|   密码  |
+|    result|   String|   ontid  |
+### 修改密码（忘记密码）
+1. 先获取手机校验码
+2. 修改密码
+```
+/api/v1/ontid/edit/password
 
 {
-	"action":"editPassword", 
-	"version":"1.0",
-	"params": {
-			"phone":"15821703553",
-			"oldPassword": "123456",
+			"phone":"+86 15821703553",
+			"verifyCode":"123456",
 			"newPassword":"12345678",
-			"comfirmPassword":"12345678"
-	}
 }
 ```
 
@@ -117,33 +178,36 @@ method：POST
 ```json
 
 {
-	"action":"editPhone", // or editPassword
+	"action":"editPassword",
 	"version":"1.0",
 	"error":0,
 	"desc":"SUCCESS",
-	"result": true
+    "result": "did:ont:AcrgWfbSPxMR1BNxtenRCCGpspamMWhLuL"
 }
 ```
 
 | RequestField|     Type |   Description   | 
 | :--------------: | :--------:| :------: |
-|    result|   bool|   true 或false  |
+|    phone|   String|   手机号  |
+|    verifyCode|   String|   手机号验证码  |
+|    newPassword|   String|   新密码  |
+|    result|   String|   ontid  |
 
 
-### 导入
+### 托管
 
-请求：
+1.获取手机验证码
+2.请求：
 ```json
-url：/api/v1/ontid/import 
+url：/api/v1/ontid/binding 
 method：POST
 
 {
-	"action":"import ", 
-	"version":"1.0",
-	"params": {
-			"type":"keystore" //or wif
-			"data":"......"
-	}
+		    "phone":"+86 15821703553",
+			"verifyCode":"123456",
+			"data":"keystore",
+			"password":"123456"
+			
 }
 
 ```
@@ -152,33 +216,33 @@ method：POST
 ```json
 
 {
-	"action":"import",
+	"action":"binding",
 	"version":"1.0",
 	"error":0,
 	"desc":"SUCCESS",
-	"result": true
+	"result": "did:ont:AcrgWfbSPxMR1BNxtenRCCGpspamMWhLuL"
 }
 ```
 
 | RequestField|     Type |   Description   | 
 | :--------------: | :--------:| :------: |
-|    keystore|   string|     |
+|    data|   string|     keystore|
+|    phone|   String|   手机号  |
+|    verifyCode|   String|   手机号验证码  |
+|    password|   String|   密码  |
+|    result|   String|   ontid  |
 
 
 ### 导出
 
 请求：
 ```json
-url：/api/v1/ontid/export/keystore 或  /api/v1/ontid/export/wif
+url：/api/v1/ontid/export/keystore 
 method：POST
 
 {
-	"action":"export", 
-	"version":"1.0",
-	"params": {
-			"phone":"15821703553"
+			"ontid":"did:ont:AcrgWfbSPxMR1BNxtenRCCGpspamMWhLuL"
 			"password":"12345678"
-	}
 }
 
 ```
@@ -192,13 +256,17 @@ method：POST
 	"error":0,
 	"desc":"SUCCESS",
 	"result": {
-        "keystore": "......"  // 或 wif
-    }
+	    "keystore"：""
+	    "phone":"+86 1231231231"
+	}
 }
 ```
 
 | RequestField|     Type |   Description   | 
 | :--------------: | :--------:| :------: |
-|    keystore|   string|     |
+|    ontid|   string|     ontid|
+|    password|   String|   密码  |
+|    phone|   String|   手机号  |
+|    keystore|   String|   ontid  |
 
 
