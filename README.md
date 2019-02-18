@@ -16,7 +16,7 @@ url：/api/v1/ontid/getcode/phone
 method：POST
 
 {
-			"number":"+86*15821703553",
+	"number":"+86*15821703553",
 }
 
 ```
@@ -47,9 +47,9 @@ url：/api/v1/ontid/register/phone
 method：POST
 
 {
-			"number":"+86*15821703553",
-			"verifyCode": "123456",
-			"password":"123456"
+	"number":"+86*15821703553",
+	"verifyCode": "123456",
+	"password":"123456"
 }
 
 ```
@@ -86,8 +86,8 @@ url：/api/v1/ontid/login/phone
 method：POST
 
 {
-			"phone":"+86*15821703553",
-			"verifyCode": "123456"
+	"phone":"+86*15821703553",
+	"verifyCode": "123456"
 }
 
 ```
@@ -97,8 +97,8 @@ url：/api/v1/ontid/login/password
 method：POST
 
 {
-			"phone":"+86*15821703553",
-			"password": "123456"
+	"phone":"+86*15821703553",
+	"password": "123456"
 }
 ```
 
@@ -134,10 +134,10 @@ url：/api/v1/ontid/edit/phone
 method：POST
 
 {
-			"newPhone": "+86*15821703552",
-			"verifyCode": "123456",
-			"oldphone":"+86*15821703553",
-			"password":"123456",
+	"newPhone": "+86*15821703552",
+	"verifyCode": "123456",
+	"oldPhone":"+86*15821703553",
+	"password":"123456",
 }
 
 
@@ -146,7 +146,7 @@ method：POST
 ```json
 
 {
-	"action":"editPhone", 
+	"action":"edit", 
 	"version":"1.0",
 	"error":0,
 	"desc":"SUCCESS",
@@ -168,9 +168,9 @@ method：POST
 /api/v1/ontid/edit/password
 
 {
-			"phone":"+86*15821703553",
-			"verifyCode":"123456",
-			"newPassword":"12345678",
+	"phone":"+86*15821703553",
+	"verifyCode":"123456",
+	"newPassword":"12345678",
 }
 ```
 
@@ -178,7 +178,7 @@ method：POST
 ```json
 
 {
-	"action":"editPassword",
+	"action":"edit",
 	"version":"1.0",
 	"error":0,
 	"desc":"SUCCESS",
@@ -203,10 +203,10 @@ url：/api/v1/ontid/binding
 method：POST
 
 {
-		    "phone":"+86*15821703553",
-			"verifyCode":"123456",
-			"data":"keystore",
-			"password":"123456"
+	"phone":"+86*15821703553",
+	"verifyCode":"123456",
+	"keystore":"keystore",
+	"password":"123456"
 			
 }
 
@@ -234,15 +234,15 @@ method：POST
 
 
 ### 导出
-
+* 导出keystore
 请求：
 ```json
 url：/api/v1/ontid/export/keystore 
 method：POST
 
 {
-			"ontid":"did:ont:AcrgWfbSPxMR1BNxtenRCCGpspamMWhLuL"
-			"password":"12345678"
+	"ontid":"did:ont:AcrgWfbSPxMR1BNxtenRCCGpspamMWhLuL"
+	"password":"12345678"
 }
 
 ```
@@ -255,10 +255,55 @@ method：POST
 	"version":"1.0",
 	"error":0,
 	"desc":"SUCCESS",
-	"result": {
-	    "keystore"：""
-	    "phone":"+86 1231231231"
-	}
+	"result": "keystore"
+}
+```
+* 导出wif
+请求：
+```json
+url：/api/v1/ontid/export/wif 
+method：POST
+
+{
+	"ontid":"did:ont:AcrgWfbSPxMR1BNxtenRCCGpspamMWhLuL"
+	"password":"12345678"
+}
+
+```
+
+返回：
+```json
+
+{
+	"action":"export",
+	"version":"1.0",
+	"error":0,
+	"desc":"SUCCESS",
+	"result": "wif"
+}
+```
+* 导出手机号
+请求：
+```json
+url：/api/v1/ontid/export/phone 
+method：POST
+
+{
+	"ontid":"did:ont:AcrgWfbSPxMR1BNxtenRCCGpspamMWhLuL"
+	"password":"12345678"
+}
+
+```
+
+返回：
+```json
+
+{
+	"action":"export",
+	"version":"1.0",
+	"error":0,
+	"desc":"SUCCESS",
+	"result": "phone"
 }
 ```
 
@@ -266,7 +311,5 @@ method：POST
 | :--------------: | :--------:| :------: |
 |    ontid|   string|     ontid|
 |    password|   String|   密码  |
-|    phone|   String|   手机号  |
-|    keystore|   String|   ontid  |
 
 
