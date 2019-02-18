@@ -82,7 +82,7 @@ method：POST
 1. 先获取校验码
 2. 验证校验码
 ```json
-url：/api/v1/ontid/login
+url：/api/v1/ontid/login/phone
 method：POST
 
 {
@@ -93,7 +93,7 @@ method：POST
 ```
 * 密码登录
 ```json
-url：/api/v1/ontid/loginPassword
+url：/api/v1/ontid/login/password
 method：POST
 
 {
