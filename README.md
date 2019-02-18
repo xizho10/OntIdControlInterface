@@ -16,7 +16,7 @@ url：/api/v1/ontid/getcode/phone
 method：POST
 
 {
-			"number":"+86 15821703553",
+			"number":"+86*15821703553",
 }
 
 ```
@@ -47,7 +47,7 @@ url：/api/v1/ontid/register/phone
 method：POST
 
 {
-			"number":"+86 15821703553",
+			"number":"+86*15821703553",
 			"verifyCode": "123456",
 			"password":"123456"
 }
@@ -86,7 +86,7 @@ url：/api/v1/ontid/login
 method：POST
 
 {
-			"phone":"+86 15821703553",
+			"phone":"+86*15821703553",
 			"verifyCode": "123456"
 }
 
@@ -97,7 +97,7 @@ url：/api/v1/ontid/loginPassword
 method：POST
 
 {
-			"phone":"+86 15821703553",
+			"phone":"+86*15821703553",
 			"password": "123456"
 }
 ```
@@ -134,9 +134,9 @@ url：/api/v1/ontid/edit/phone
 method：POST
 
 {
-			"newPhone": "+86 15821703552",
+			"newPhone": "+86*15821703552",
 			"verifyCode": "123456",
-			"oldphone":"+86 15821703553",
+			"oldphone":"+86*15821703553",
 			"password":"123456",
 }
 
@@ -168,7 +168,7 @@ method：POST
 /api/v1/ontid/edit/password
 
 {
-			"phone":"+86 15821703553",
+			"phone":"+86*15821703553",
 			"verifyCode":"123456",
 			"newPassword":"12345678",
 }
@@ -203,7 +203,7 @@ url：/api/v1/ontid/binding
 method：POST
 
 {
-		    "phone":"+86 15821703553",
+		    "phone":"+86*15821703553",
 			"verifyCode":"123456",
 			"data":"keystore",
 			"password":"123456"
